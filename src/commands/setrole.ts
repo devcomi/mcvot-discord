@@ -1,0 +1,39 @@
+import {
+  ChatInputCommandInteraction,
+  Client,
+  GuildMember,
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+} from "discord.js";
+
+import { DataClasses } from "../types";
+
+export async function execute(
+  client: Client,
+  author: GuildMember,
+  interaction: ChatInputCommandInteraction,
+  dataClasses: DataClasses
+) {
+  if (!author.permissions.has(PermissionFlagsBits.Administrator)) {
+    interaction.reply({
+      content: "권한이 없습니다!",
+    });
+    return;
+  }
+
+  const role = interaction.options.getRole("역할", true);
+
+  dataClasses.RClass.insert(
+    parseInt(interaction.guildId as string),
+    parseInt(role.id)
+  ).then(() => {
+    interaction.reply({ content: "성공적으로 설정하였습니다!" });
+  });
+}
+
+export const data = new SlashCommandBuilder()
+  .setName("setrole")
+  .setDescription("서버의 인증 역할을 정합니다.")
+  .addRoleOption((option) =>
+    option.setName("역할").setDescription("서버의 인증 역할.").setRequired(true)
+  );
