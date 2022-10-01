@@ -7,6 +7,7 @@ import {
   GatewayIntentBits,
   GuildMember,
   Interaction,
+  Role,
   User,
 } from "discord.js";
 import fs from "fs";
@@ -19,7 +20,7 @@ import etc_Conf from "./etc.config";
 import UserClass from "./tables/user.class";
 import PendingUserClass from "./tables/pending_users.class";
 
-import { execute, PVRowDataPackets } from "./types";
+import { execute, PVRowDataPackets, RLRowDataPackets } from "./types";
 import RoleClass from "./tables/role.class";
 
 let UClass: UserClass;
@@ -122,5 +123,18 @@ client.on("interactionCreate", async (interaction) => {
     interaction.reply("명령어를 찾을 수 없습니다!");
   }
 });
+
+client.on("guildMemberAdd", (member) => {
+  RClass.select(parseInt(member.guild.id)).then(
+    (id: RLRowDataPackets) => {
+      if (id == undefined) return;
+      if (id[0] == undefined) return;
+      const role = member.guild.roles.cache.find(
+        (r) => parseInt(r.id) === id[0].ROLE_ID
+      );
+      member.roles.add([role as Role]);
+    }
+  );
+})
 
 client.login(config.TOKEN);
