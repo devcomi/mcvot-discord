@@ -27,11 +27,6 @@ export async function execute(
     return;
   }
 
-  if ((await dataClasses.UClass.select(pendingSelect[0].UUID)) != undefined) {
-    interaction.reply({ content: "이미 인증을 완료하셨습니다!" });
-    return;
-  }
-
   if (pendingSelect[0].PIN != pin.toString()) {
     interaction.reply({ content: "핀이 일치하지 않습니다!" });
     return;
@@ -46,6 +41,18 @@ export async function execute(
     });
   }
 
+  if ((await dataClasses.UClass.selectFromDiscordId(parseInt(author.user.id))) != undefined) {
+    dataClasses.UClass.delFromDiscordId(parseInt(author.user.id));
+    return;
+  }
+
+  if (
+    (await dataClasses.UClass.select(pendingSelect[0].UUID)) != undefined
+  ) {
+    dataClasses.UClass.del(pendingSelect[0].UUID);
+    return;
+  }
+
   dataClasses.UClass.insert(pendingSelect[0].UUID, parseInt(author.id));
   dataClasses.PClass.del(pendingSelect[0].UUID);
 
@@ -53,7 +60,9 @@ export async function execute(
     (id: RLRowDataPackets) => {
       if (id == undefined) return;
       if (id[0] == undefined) return;
-      const role = author.guild.roles.cache.find((r) => parseInt(r.id) === id[0].ROLE_ID);
+      const role = author.guild.roles.cache.find(
+        (r) => parseInt(r.id) === id[0].ROLE_ID
+      );
       if (role?.editable) {
         author.roles.add([role as Role]);
       }
