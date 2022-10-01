@@ -27,7 +27,7 @@ export async function execute(
   );
 
   if (!guildRole?.editable) {
-    interaction.reply("이 역할을 설정 할 권한이 없습니다.");
+    interaction.reply("봇이 해당 역할을 설정 할 권한이 없습니다.");
   }
 
   dataClasses.RClass.insert(
