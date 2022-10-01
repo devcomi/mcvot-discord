@@ -43,14 +43,12 @@ export async function execute(
 
   if ((await dataClasses.UClass.selectFromDiscordId(parseInt(author.user.id))) != undefined) {
     dataClasses.UClass.delFromDiscordId(parseInt(author.user.id));
-    return;
   }
 
   if (
     (await dataClasses.UClass.select(pendingSelect[0].UUID)) != undefined
   ) {
     dataClasses.UClass.del(pendingSelect[0].UUID);
-    return;
   }
 
   dataClasses.UClass.insert(pendingSelect[0].UUID, parseInt(author.id));
