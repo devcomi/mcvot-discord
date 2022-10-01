@@ -9,7 +9,6 @@
     "deploy": "node build/deploy-commands.js",
     "dev": "concurrently \"tsc -w\" \" nodemon build/index.js\""
   },
-  "heroku-run-build-script": true,
   "keywords": [],
   "author": "",
   "license": "ISC",
