@@ -6,11 +6,11 @@
 
 ### 사용 방법.
 
-1. 이 봇의 소스 코드를 다운로드 한 뒤 봇에 적용하거나 저의 봇을 디스코드 서버에 [초대](https://discord.com/api/oauth2/authorize?client_id=1023276509248639078&permissions=8&scope=bot)하시면 됩니다. <br>
+1. 이 봇의 소스 코드를 다운로드 한 뒤 봇에 적용하거나 저의 봇을 디스코드 서버에 [초대](https://discord.com/oauth2/authorize?client_id=1023276509248639078&permissions=8&scope=bot%20applications.commands)하시면 됩니다. <br>
    > 만약 소스 코드를 사용 하실려면..
    > - 데이터를 저장하기 위해 데이터베이스도 필요합니다. (MySQL 기반)
    > - .env 파일 설정 방법은 하단을 참고하세요.
-2. 마인크래프트 서버에 인증 플러그인을 추가합니다. (현재 배포 안 함.)
+2. 마인크래프트 서버에 인증 [플러그인](https://github.com/devcomi/mcvot-plugin)을 추가합니다.
 
 ### .env 파일 예시.
 
