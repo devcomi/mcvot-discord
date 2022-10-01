@@ -54,7 +54,9 @@ export async function execute(
       if (id == undefined) return;
       if (id[0] == undefined) return;
       const role = author.guild.roles.cache.find((r) => parseInt(r.id) === id[0].ROLE_ID);
-      author.roles.add([role as Role]);
+      if (role?.editable) {
+        author.roles.add([role as Role]);
+      }
     }
   );
 

@@ -7,6 +7,7 @@ import {
   GatewayIntentBits,
   GuildMember,
   Interaction,
+  PermissionFlagsBits,
   Role,
   User,
 } from "discord.js";
@@ -132,7 +133,9 @@ client.on("guildMemberAdd", (member) => {
       const role = member.guild.roles.cache.find(
         (r) => parseInt(r.id) === id[0].ROLE_ID
       );
-      member.roles.add([role as Role]);
+      if (role?.editable) {
+        member.roles.add([role as Role]);
+      }
     }
   );
 })
