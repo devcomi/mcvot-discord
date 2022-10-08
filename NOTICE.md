@@ -2,7 +2,7 @@
 
 # [dotenv](https://github.com/motdotla/dotenv)
 
-```md
+```
 Copyright (c) 2015, Scott Motte
 All rights reserved.
 
