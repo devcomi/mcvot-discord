@@ -125,9 +125,11 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-client.on("guildMemberAdd", (member) => {
-  RClass.select(parseInt(member.guild.id)).then(
-    (id: RLRowDataPackets) => {
+client.on("guildMemberAdd", async (member) => {
+  if (
+    (await UClass.selectFromDiscordId(parseInt(member.user.id))) != undefined
+  ) {
+    RClass.select(parseInt(member.guild.id)).then((id: RLRowDataPackets) => {
       if (id == undefined) return;
       if (id[0] == undefined) return;
       const role = member.guild.roles.cache.find(
@@ -136,8 +138,8 @@ client.on("guildMemberAdd", (member) => {
       if (role?.editable) {
         member.roles.add([role as Role]);
       }
-    }
-  );
-})
+    });
+  }
+});
 
 client.login(config.TOKEN);
