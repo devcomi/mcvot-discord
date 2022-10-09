@@ -23,12 +23,13 @@ export async function execute(
   if (pendingSelect == undefined) {
     interaction.reply({
       content: "마인크래프트 서버에서 인증 명령어를 입력하셨는지 확인해주세요!",
+      ephemeral: true,
     });
     return;
   }
 
   if (pendingSelect[0].PIN != pin.toString()) {
-    interaction.reply({ content: "핀이 일치하지 않습니다!" });
+    interaction.reply({ content: "핀이 일치하지 않습니다!", ephemeral: true });
     return;
   }
 
@@ -38,16 +39,18 @@ export async function execute(
   ) {
     interaction.reply({
       content: "엄청난 타이밍으로 입력하셨군요! 하지만 만료되었습니다!",
+      ephemeral: true,
     });
   }
 
-  if ((await dataClasses.UClass.selectFromDiscordId(parseInt(author.user.id))) != undefined) {
+  if (
+    (await dataClasses.UClass.selectFromDiscordId(parseInt(author.user.id))) !=
+    undefined
+  ) {
     dataClasses.UClass.delFromDiscordId(parseInt(author.user.id));
   }
 
-  if (
-    (await dataClasses.UClass.select(pendingSelect[0].UUID)) != undefined
-  ) {
+  if ((await dataClasses.UClass.select(pendingSelect[0].UUID)) != undefined) {
     dataClasses.UClass.del(pendingSelect[0].UUID);
   }
 
@@ -69,6 +72,7 @@ export async function execute(
 
   interaction.reply({
     content: "인증이 완료되었습니다!",
+    ephemeral: true,
   });
 }
 
