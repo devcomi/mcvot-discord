@@ -32,9 +32,10 @@ export async function execute(
 
   dataClasses.RClass.select(parseInt(interaction.guildId as string)).then(
     (id: RLRowDataPackets) => {
-      if (id == undefined) return;
-      if (id[0] != undefined) {
-        dataClasses.RClass.del(parseInt(interaction.guildId as string));
+      if (id != undefined) {
+        if (id[0] != undefined) {
+          dataClasses.RClass.del(parseInt(interaction.guildId as string));
+        }
       }
       dataClasses.RClass.insert(
         parseInt(interaction.guildId as string),
