@@ -32,20 +32,21 @@ export async function execute(
 
   interaction.deferReply();
 
-  dataClasses.RClass.select(parseInt(interaction.guildId as string))
-    .then(async (id: RLRowDataPackets) => {
+  dataClasses.RClass.select(parseInt(interaction.guildId as string)).then(
+    async (id: RLRowDataPackets) => {
       if (id == undefined) return;
       if (id[0] == undefined) return;
       await dataClasses.RClass.del(parseInt(interaction.guildId as string));
-    })
-    .then(() => {
-      dataClasses.RClass.insert(
-        parseInt(interaction.guildId as string),
-        parseInt(role.id)
-      ).then(async () => {
-        await interaction.reply({ content: "성공적으로 설정하였습니다!" });
-      });
-    });
+    }
+  );
+
+  dataClasses.RClass.insert(
+    parseInt(interaction.guildId as string),
+    parseInt(role.id)
+  ).then(async () => {
+    await interaction.editReply({ content: "성공적으로 설정하였습니다!" });
+    return;
+  });
 }
 
 export const data = new SlashCommandBuilder()
