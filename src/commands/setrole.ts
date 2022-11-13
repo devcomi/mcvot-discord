@@ -32,7 +32,7 @@ export async function execute(
 
   interaction.deferReply();
 
-  dataClasses.RClass.select(parseInt(interaction.guildId as string)).then(
+  await dataClasses.RClass.select(parseInt(interaction.guildId as string)).then(
     async (id: RLRowDataPackets) => {
       if (id == undefined) return;
       if (id[0] == undefined) return;
@@ -40,13 +40,14 @@ export async function execute(
     }
   );
 
-  dataClasses.RClass.insert(
+  await dataClasses.RClass.insert(
     parseInt(interaction.guildId as string),
     parseInt(role.id)
   ).then(async () => {
     await interaction.editReply({ content: "성공적으로 설정하였습니다!" });
     return;
   });
+  await interaction.editReply({ content: "오류가 발생했습니다!" });
 }
 
 export const data = new SlashCommandBuilder()
