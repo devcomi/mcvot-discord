@@ -43,11 +43,13 @@ export async function execute(
   await dataClasses.RClass.insert(
     parseInt(interaction.guildId as string),
     parseInt(role.id)
-  ).then(async () => {
-    await interaction.editReply({ content: "성공적으로 설정하였습니다!" });
-    return;
-  });
-  await interaction.editReply({ content: "오류가 발생했습니다!" });
+  )
+    .then(async () => {
+      await interaction.editReply({ content: "성공적으로 설정하였습니다!" });
+    })
+    .catch(async () => {
+      await interaction.editReply({ content: "오류가 발생했습니다!" });
+    });
 }
 
 export const data = new SlashCommandBuilder()
