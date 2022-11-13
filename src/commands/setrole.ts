@@ -30,7 +30,7 @@ export async function execute(
     interaction.reply("봇이 해당 역할을 설정 할 권한이 없습니다.");
   }
 
-  dataClasses.RClass.select(parseInt(interaction.guildId as string)).then(
+  await dataClasses.RClass.select(parseInt(interaction.guildId as string)).then(
     (id: RLRowDataPackets) => {
       if (id == undefined) return;
       if (id[0] == undefined) return;
