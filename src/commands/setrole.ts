@@ -15,7 +15,7 @@ export async function execute(
   dataClasses: DataClasses
 ) {
   if (!author.permissions.has(PermissionFlagsBits.Administrator)) {
-    interaction.reply({
+    await interaction.reply({
       content: "권한이 없습니다!",
     });
     return;
@@ -27,23 +27,23 @@ export async function execute(
   );
 
   if (!guildRole?.editable) {
-    interaction.reply("봇이 해당 역할을 설정 할 권한이 없습니다.");
+    await interaction.reply("봇이 해당 역할을 설정 할 권한이 없습니다.");
   }
 
   interaction.deferReply();
 
   dataClasses.RClass.select(parseInt(interaction.guildId as string))
-    .then((id: RLRowDataPackets) => {
+    .then(async (id: RLRowDataPackets) => {
       if (id == undefined) return;
       if (id[0] == undefined) return;
-      dataClasses.RClass.del(parseInt(interaction.guildId as string));
+      await dataClasses.RClass.del(parseInt(interaction.guildId as string));
     })
     .then(() => {
       dataClasses.RClass.insert(
         parseInt(interaction.guildId as string),
         parseInt(role.id)
-      ).then(() => {
-        interaction.reply({ content: "성공적으로 설정하였습니다!" });
+      ).then(async () => {
+        await interaction.reply({ content: "성공적으로 설정하였습니다!" });
       });
     });
 }
