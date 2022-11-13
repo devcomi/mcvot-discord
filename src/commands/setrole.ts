@@ -6,7 +6,7 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 
-import { DataClasses } from "../types";
+import { DataClasses, RLRowDataPackets } from "../types";
 
 export async function execute(
   client: Client,
@@ -29,6 +29,14 @@ export async function execute(
   if (!guildRole?.editable) {
     interaction.reply("봇이 해당 역할을 설정 할 권한이 없습니다.");
   }
+
+  dataClasses.RClass.select(parseInt(interaction.guildId as string)).then(
+    (id: RLRowDataPackets) => {
+      if (id == undefined) return;
+      if (id[0] == undefined) return;
+      dataClasses.RClass.del(parseInt(interaction.guildId as string));
+    }
+  );
 
   dataClasses.RClass.insert(
     parseInt(interaction.guildId as string),
