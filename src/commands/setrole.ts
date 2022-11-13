@@ -30,21 +30,22 @@ export async function execute(
     interaction.reply("봇이 해당 역할을 설정 할 권한이 없습니다.");
   }
 
-  dataClasses.RClass.select(parseInt(interaction.guildId as string)).then(
-    (id: RLRowDataPackets) => {
-      if (id != undefined) {
-        if (id[0] != undefined) {
-          dataClasses.RClass.del(parseInt(interaction.guildId as string));
-        }
-      }
+  interaction.deferReply();
+
+  dataClasses.RClass.select(parseInt(interaction.guildId as string))
+    .then((id: RLRowDataPackets) => {
+      if (id == undefined) return;
+      if (id[0] == undefined) return;
+      dataClasses.RClass.del(parseInt(interaction.guildId as string));
+    })
+    .then(() => {
       dataClasses.RClass.insert(
         parseInt(interaction.guildId as string),
         parseInt(role.id)
       ).then(() => {
         interaction.reply({ content: "성공적으로 설정하였습니다!" });
       });
-    }
-  );
+    });
 }
 
 export const data = new SlashCommandBuilder()
